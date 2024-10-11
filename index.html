@@ -9,8 +9,54 @@
 </head>
 
 <body>
-  <div class="blue"></div>
-  <script type="module" src="./main.js"></script>
+  <div class="header" x-data="navbar">
+    <template x-for="data in list">
+      <a :href="data.url" x-text="data.title"></a>
+    </template>
+  </div>
+  <div class="main-section">
+    <div class="hero" id="home">
+      <img src="/img/avatar.webp" class="masked-image" alt="">
+      <div class="hero-slider">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="hero__header">
+              <h1>Rajiph iqbal ghandi</h1>
+              <h2>Web developer</h2>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="profile">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <h3>Bio</h3>
+                  <p>Hello, My name is rajiph <br />
+                    I am a passionate web developer with 11 months of experience specializing in e-commerce projects. My
+                    expertise lies in front-end technologies, with a strong focus on WordPress and Elementor
+                    development,
+                    WooCommerce, React.js, Laravel, and RDBMS. I am excited about the opportunity to create delightful
+                    user
+                    experiences and drive innovation in web development.
+                  </p>
+                </div>
+                <div class="swiper-slide">
+                  <h3>Experience</h3>
+                  <ul>
+                    <li>job experience </li>
+                    <li>job experience </li>
+                    <li>job experience </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="projects" id="projects"></div>
+    <div class="footer"></div>
+    <script type="module" src="./main.js"></script>
 </body>
 
 </html>
