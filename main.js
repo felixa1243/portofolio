@@ -73,8 +73,6 @@ Olaundry is laundry company located in yogyakarta, they need a website that intr
   }));
 });
 
-Aos.init({
-  once: true // optional: animation only on first scroll
-});
+Aos.init();
 
 Alpine.start();
