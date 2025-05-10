@@ -144,6 +144,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource-variable/reddit-mono/-/reddit-mono-5.2.5.tgz#73d896cd35150881815971441791e21d33cf24e2"
   integrity sha512-F0eqJugZtuWTguQKH7I7PVZRnPYM/Z79StSCNiyx5L5fFCCuD+LMllcXHYQLtHPmRiJgtN6PDcrt8agiuqW89g==
 
+"@fontsource/bebas-neue@^5.2.5":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/bebas-neue/-/bebas-neue-5.2.5.tgz#b9eadc26df45aa1b27d9ef22eb2b898544b3dba6"
+  integrity sha512-9hZCl9BpuwrIPRgprS17WRHMRyqprFKxNEDOl98en9XzikR8GGXpeiLaKf5HpNm1NKnVo/EowTjcgcgrvW3h0w==
+
 "@fontsource/fira-code@^5.2.5":
   version "5.2.5"
   resolved "https://registry.yarnpkg.com/@fontsource/fira-code/-/fira-code-5.2.5.tgz#8ed9744955b487fa6fa76ab1747b19ecbb15e54b"

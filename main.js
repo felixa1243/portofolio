@@ -1,20 +1,24 @@
 import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
 import Aos from "aos";
+import { SplitText } from "gsap/SplitText";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Swiper from "swiper";
 import "swiper/swiper-bundle.css";
 import { Navigation } from "swiper/modules";
-import "@fontsource/fira-code";
-import "@fontsource-variable/reddit-mono";
+import "@fontsource/bebas-neue";
+import "@fontsource/poppins";
 import Alpine from "alpinejs";
 
 gsap.registerPlugin(SplitText);
+gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollSmoother);
 window.Alpine = Alpine;
 
 const swiper = new Swiper(".mySwiper", {
   loop: true,
   spaceBetween: 20,
-  slidesPerView: 1,
+  slidesPerView: 3,
   centeredSlides: true,
   observer: true,
   observeParents: true,
@@ -35,17 +39,53 @@ const swiper = new Swiper(".mySwiper", {
   modules: [Navigation]
 });
 
-gsap.utils.toArray(".animate-btt").forEach((textElement) => {
-  const splitText = new SplitText(textElement, { type: "chars" });
-  gsap.from(splitText.chars, {
-    opacity: 0,
-    y: 50,
-    duration: 0.3,
-    stagger: 0.05,
-    ease: "power3.out"
+const smoother = ScrollSmoother.create({
+  content: '#smooth-content',
+  smooth: 3,
+  normalizeScroll: true,
+  ignoreMobileResize: true,
+  effects: true,
+})
+let splitTextLines = gsap.utils.toArray(".js-splittext-lines");
+
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: splitTextLines,
+    start: 'top 90%',
+    end: 'bottom 60%',
+    scrub: 2,
+    markers: false,
+    toggleActions: 'play none play reset'
+  }
+});
+const itemSplitted = new SplitText(splitTextLines, { type: 'lines' });
+tl.from(itemSplitted.lines, { y: 100, opacity: 0, stagger: 0.05, duration: 1, ease: 'back.inOut' });
+const sections = document.querySelectorAll('[data-bgcolor]');
+
+sections.forEach((section, i) => {
+  const prevBg = i === 0 ? 'oklch(37.3% 0.034 259.733)' : sections[i - 1].dataset.bgcolor;
+  const prevText = i === 0 ? '#ffffff' : sections[i - 1].dataset.textcolor;
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 50%',
+    onEnter: () => {
+      gsap.to(document.body, {
+        backgroundColor: section.dataset.bgcolor,
+        color: section.dataset.textcolor,
+        overwrite: 'auto',
+        duration: 1
+      });
+    },
+    onLeaveBack: () => {
+      gsap.to(document.body, {
+        backgroundColor: prevBg,
+        color: prevText,
+        overwrite: 'auto'
+      });
+    }
   });
 });
-
 document.addEventListener("alpine:init", () => {
   Alpine.data("projects", () => ({
     projects: [
@@ -72,7 +112,6 @@ Olaundry is laundry company located in yogyakarta, they need a website that intr
     ]
   }));
 });
-
-Aos.init();
+Aos.init()
 
 Alpine.start();
