@@ -112,6 +112,12 @@ Olaundry is laundry company located in yogyakarta, they need a website that intr
         title: "Discord Bot Task management system",
         description: `A powerful Notion bot that helps you manage projects and tasks directly from Discord or Telegram. Create, update, and filter Notion pages in real-time with slash commands, smart autocompletion, and seamless integration.`
       },
+      {
+        title: 'DKSH Snack Pairs',
+        description: `DKSH Snack Pairs is a promotional website for a snack brand, they need a website that introduce their product so the customer can easily contact them. DKSH, also known as DiethelmKellerSiberHegner, 
+        is a Swiss holding company specialising in market expansion services, e.g. outsourcing`,
+        link:'https://kitatechnology.com/preview/dev/iqbal/microsite/dksh-june-2025'
+      }
     ]
   }));
 });
