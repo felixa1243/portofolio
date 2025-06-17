@@ -16,6 +16,7 @@ document.addEventListener('alpine:init', () => {
     navbar: [
       { text: 'Home', link: '#home' },
       { text: 'About', link: '#about' },
+      { text: 'Education', link: '#educations' },
       { text: 'Experience', link: '#experience' },
       { text: 'Skills', link: '#skills' },
       { text: 'Projects', link: '#projects' },
@@ -144,7 +145,7 @@ section.forEach((section, index) => {
         const title3 = section.querySelector('h2');
         animateHeroTitle(title3)
         break;
-      case 3:
+      case 4:
         const title4 = section.querySelector('h2', tl);
         const grid = section.querySelector('.grid');
         const skills = grid.querySelectorAll('.skill');
@@ -159,9 +160,13 @@ section.forEach((section, index) => {
         }, 1)
         animateHeroTitle(title4)
         break;
-      case 4:
+      case 3:
         const title5 = section.querySelector('h2');
         animateHeroTitle(title5)
+        break;
+      case 5:
+        const title6 = section.querySelector('h2');
+        animateHeroTitle(title6)
         break;
     }
   }
