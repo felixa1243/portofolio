@@ -2,93 +2,57 @@
 
 @theme {
   --font-bebas: 'Bebas Neue', sans-serif;
-  --font-poppins:'Poppins', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  border: 2px solid black;
+
+}
+
+#home h1 {
+  overflow: hidden;
+}
+
 #projects {
   --swiper-navigation-size: 18px;
   --swiper-navigation-color: black;
 }
 
-
 #projects .swiper-slide:hover {
-  @apply bg-blue-400 text-black cursor-pointer
+  @apply cursor-pointer
 }
 
-
-body {
-  margin: 0;
-}
-
-.overlay {
-  position: sticky;
-  height: 100vh;
-  top: 0;
-}
-
-.text {
-  display: flex;
-  height: 100%;
+.navbar-mobile span {
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  height: 3px;
+  background-color: black;
 }
 
-.text-inner {
-  transform: translatex(50vw);
-  font-size: 2.5rem;
+#projects .swiper-slide .project-content::after {
+  content: '';
+  pointer-events: none;
+  @apply absolute top-5 left-5 w-full h-full bg-black -z-[1] block
 }
 
-.track {
-  height: 300vh;
+#projects .swiper-slide .project-content::selection {
+  background-color: black;
+  color: white;
 }
 
-.gradient {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(255deg,
-      #facb0e,
-      #f06ba8 30%,
-      #78bae6 65%,
-      #fff);
-  z-index: -1;
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0%;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
+.about-text {
+  position: relative;
+  background-color: white;
 }
 
-.shape {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  mix-blend-mode: multiply;
-  background: black;
+.about-text::selection {
+  background-color: black;
+  color: white;
 }
 
-.shape .img {
-  width: 20rem;
-  height: 20rem;
-  /* transform: rotate(45deg); */
-}
-
-.img svg {
-  width: 100%;
-  height: 100%;
-}
-
-.img svg .hsc-img-path {
-  fill: white;
-}
-
-.overlay {
-  overflow: hidden;
+.about-text::before {
+  content: '';
+  pointer-events: none;
+  @apply -z-[1] absolute block w-full h-full bg-black rounded-xl left-5 top-7
 }

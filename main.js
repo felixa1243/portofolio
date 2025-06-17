@@ -1,5 +1,5 @@
+import 'iconify-icon';
 import gsap from "gsap";
-import Aos from "aos";
 import { SplitText } from "gsap/SplitText";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,87 +9,24 @@ import { Navigation } from "swiper/modules";
 import "@fontsource/bebas-neue";
 import "@fontsource/poppins";
 import Alpine from "alpinejs";
-
-gsap.registerPlugin(SplitText);
-gsap.registerPlugin(ScrollTrigger)
-gsap.registerPlugin(ScrollSmoother);
+gsap.registerPlugin(ScrollSmoother, ScrollTrigger, SplitText);
 window.Alpine = Alpine;
-
-const swiper = new Swiper(".mySwiper", {
-  loop: true,
-  spaceBetween: 20,
-  slidesPerView: 3,
-  centeredSlides: true,
-  observer: true,
-  observeParents: true,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev"
-  },
-  breakpoints: {
-    320: {
-      slidesPerView: 1
-    },
-    768: {
-      slidesPerView: 2,
-      centeredSlides: false
-    },
-    1024: {
-      slidesPerView: 3,
-      centeredSlides: false
-    }
-  },
-  modules: [Navigation]
-});
-
-const smoother = ScrollSmoother.create({
-  content: '#smooth-content',
-  smooth: 3,
-  normalizeScroll: true,
-  ignoreMobileResize: true,
-  effects: true,
-})
-let splitTextLines = gsap.utils.toArray(".js-splittext-lines");
-
-const tl = gsap.timeline({
-  scrollTrigger: {
-    trigger: splitTextLines,
-    start: 'top 90%',
-    end: 'bottom 60%',
-    scrub: 2,
-    markers: false,
-    toggleActions: 'play none play reset'
-  }
-});
-const itemSplitted = new SplitText(splitTextLines, { type: 'lines' });
-tl.from(itemSplitted.lines, { y: 100, opacity: 0, stagger: 0.05, duration: 1, ease: 'back.inOut' });
-const sections = document.querySelectorAll('[data-bgcolor]');
-
-sections.forEach((section, i) => {
-  const prevBg = i === 0 ? 'oklch(37.3% 0.034 259.733)' : sections[i - 1].dataset.bgcolor;
-  const prevText = i === 0 ? '#ffffff' : sections[i - 1].dataset.textcolor;
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top 50%',
-    onEnter: () => {
-      gsap.to(document.body, {
-        backgroundColor: section.dataset.bgcolor,
-        color: section.dataset.textcolor,
-        overwrite: 'auto',
-        duration: 1
-      });
-    },
-    onLeaveBack: () => {
-      gsap.to(document.body, {
-        backgroundColor: prevBg,
-        color: prevText,
-        overwrite: 'auto'
-      });
-    }
-  });
-});
-document.addEventListener("alpine:init", () => {
+document.addEventListener('alpine:init', () => {
+  Alpine.data('hyperlinks', () => ({
+    navbar: [
+      { text: 'Home', link: '#home' },
+      { text: 'About', link: '#about' },
+      { text: 'Experience', link: '#experience' },
+      { text: 'Skills', link: '#skills' },
+      { text: 'Projects', link: '#projects' },
+    ],
+    socialLinks: [
+      { name: 'github', link: 'https://github.com/felixa1243', icon: 'line-md:github' },
+      { name: 'linkedin', link: 'https://www.linkedin.com/in/rajiph-iqbal-ghandi-426a56186/', icon: 'line-md:linkedin' },
+      { name: 'email', link: 'mailto:felixarajiph@gmail.com', icon: 'line-md:email' },
+      { name: 'cv', link: './cv.pdf', icon: 'line-md:download' }
+    ]
+  }));
   Alpine.data("projects", () => ({
     projects: [
       {
@@ -114,13 +51,143 @@ Olaundry is laundry company located in yogyakarta, they need a website that intr
       },
       {
         title: 'DKSH Snack Pairs',
-        description: `DKSH Snack Pairs is a promotional website for a snack brand, they need a website that introduce their product so the customer can easily contact them. DKSH, also known as DiethelmKellerSiberHegner, 
+        description: `DKSH Snack Pairs is a promotional website for a snack brand, they need a website that introduce their product so the customer can easily contact them. DKSH, also known as DiethelmKellerSiberHegner,
         is a Swiss holding company specialising in market expansion services, e.g. outsourcing`,
-        link:'https://kitatechnology.com/preview/dev/iqbal/microsite/dksh-june-2025'
+        link: 'https://kitatechnology.com/preview/dev/iqbal/microsite/dksh-june-2025'
       }
     ]
   }));
-});
-Aos.init()
+  const smoother = ScrollSmoother.create({
+    content: '#smooth-content',
+    smooth: 5,
+    smoothTouch: 0.1,
+    normalizeScroll: true,
+    ignoreMobileResize: true,
+    effects: true,
+  });
 
+  Alpine.nextTick(() => {
+    const navbar = document.querySelector('.navbar');
+    function navigate(nav) {
+      nav.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const targetSelector = e.currentTarget.dataset.link;
+          if (targetSelector) {
+            smoother.scrollTo(targetSelector, true);
+          }
+        });
+      });
+    }
+    navigate(navbar);
+    const navbarMobile = document.querySelector('.nav-mb');
+    navigate(navbarMobile);
+  });
+  const swiper = new Swiper('.mySwiper', {
+    loop: true,
+    spaceBetween: 20,
+    slidesPerView: 3,
+    observer: true,
+    observeParents: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1
+      },
+      768: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+
+      }
+    },
+    modules: [Navigation]
+  })
+});
+const section = document.querySelectorAll('section');
+section.forEach((section, index) => {
+
+
+  ScrollTrigger.create({
+    trigger: section,
+    onEnter: () => {
+      animateSection();
+    },
+    onEnterBack: () => {
+      animateSection();
+    }
+  })
+  function animateSection() {
+    const tl = gsap.timeline();
+    switch (index) {
+      case 0:
+        const title = section.querySelector('h1');
+        animateHeroTitle(title)
+        break;
+      case 1:
+        const title2 = section.querySelector('h2');
+        const text = section.querySelector('.about-text-container')
+        animateHeroTitle(title2, tl)
+        tl.fromTo(text, {
+          x: 100,
+          opacity: 0
+        }, {
+          x: 0,
+          duration: 1.2,
+          opacity: 1,
+        }, 1)
+        break;
+      case 2:
+        const title3 = section.querySelector('h2');
+        animateHeroTitle(title3)
+        break;
+      case 3:
+        const title4 = section.querySelector('h2', tl);
+        const grid = section.querySelector('.grid');
+        const skills = grid.querySelectorAll('.skill');
+        tl.fromTo(skills, {
+          autoAlpha: 0,
+          y: 100
+        }, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2
+        }, 1)
+        animateHeroTitle(title4)
+        break;
+      case 4:
+        const title5 = section.querySelector('h2');
+        animateHeroTitle(title5)
+        break;
+    }
+  }
+  function animateHeroTitle(title, tl) {
+    if (tl) {
+      tl.fromTo(SplitText.create(title, 'chars').chars, {
+        y: 100,
+        opacity: 0
+      }, {
+        y: 0,
+        duration: 1,
+        opacity: 1,
+        stagger: 0.05
+      })
+    } else {
+      gsap.fromTo(SplitText.create(title, 'chars').chars, {
+        y: 100,
+        opacity: 0
+      }, {
+        y: 0,
+        duration: 1.2,
+        opacity: 1,
+        stagger: 0.05
+      })
+    }
+  }
+})
 Alpine.start();
+

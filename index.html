@@ -11,128 +11,158 @@
     content="Rajiph Iqbal Ghandi, e-commerce web developer, WordPress developer, Laravel developer, JavaScript developer, frontend developer, portfolio, web development" />
   <meta name="author" content="Rajiph Iqbal Ghandi" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="bg-gray-900 text-gray-100 min-h-screen font-sans" data-bgcolor="oklch(37.3% 0.034 259.733)">
-  <main id="smooth-content">
-    <!-- Hero Section -->
-    <section class="smooth-wrapper" data-bgcolor="oklch(13% 0.028 261.692)">
-      <div
-        class="max-w-4xl mx-auto px-4 text-center flex justify-center items-center flex-col h-screen overflow-hidden smooth-content">
-        <div class="relative flex items-center justify-center w-full">
-          <h1 class="text-8xl font-bold mb-2 font-bebas text-center">Rajiph Iqbal Ghandi</h1>
-        </div>
-        <div class="flex flex-col gap-3 mt-10">
-          <p class="text-xl mb-6 font-poppins">Web Developer</p>
-          <div class="flex justify-center space-x-6 font-poppins flex-wrap gap-y-7">
-            <a href="https://github.com/felixa1243" class="hover:text-gray-400 underline" target="_blank"
-              rel="noopener noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/rajiph-iqbal-ghandi-426a56186/" class="hover:text-gray-400 underline"
-              target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:felixarajiph@gmail.com" class="hover:text-gray-400 underline">Email</a>
-            <a href="./cv.pdf" class="hover:text-gray-400 underline" download>Download CV</a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="max-w-4xl min-h-screen mb-24 mx-auto flex flex-col gap-7 px-4"
-      data-bgcolor="oklch(37.2% 0.044 257.287)">
-      <h2 class="js-splittext-lines text-6xl font-bebas font-bold">About Me</h2>
-      <p class="js-splittext-lines text-xl font-bold text-left font-poppins max-sm:text-sm">
-        Passionate and detail-oriented Web Developer with 1 year+ hands-on experience.
-      </p>
-      <p class="js-splittext-lines text-xl font-bold text-left font-poppins max-sm:text-sm">
-        in crafting high-performing,
-        user-focused e-commerce solutions. Skilled in building custom WordPress and WooCommerce websites with
-        Elementor, as well as developing scalable applications using React.js and Laravel.
-      </p>
-      <p class="js-splittext-lines text-xl font-bold text-left font-poppins max-sm:text-sm">
-        Experienced in front-end
-        animation with GSAP, Alpine.js state management, and full-stack solutions powered by REST APIs and modern dev
-        tools like Vite and Tailwind CSS 4.0.
-      </p>
-      <p class="js-splittext-lines text-xl font-bold text-left font-poppins max-sm:text-sm">
-        Also proficient in integrating platforms like Telegram and Discord
-        through custom bot development. Eager to contribute to dynamic teams, build efficient systems, and
-        continuously learn in a fast-paced environment.
-      </p>
+<body class="font-bebas" x-data="{navbarOpen: false}">
+  <nav
+    class="flex items-center gap-10 fixed top-0 left-0 z-[999] w-full py-5 px-32 navbar border-b-5 bg-white max-md:hidden"
+    x-data="hyperlinks">
+    <template x-for="nav in navbar" :key="nav.link">
+      <button :data-link="nav.link" class="font-reddit-mono h-full">
+        <span x-text="nav.text"></span>
+      </button>
+    </template>
+  </nav>
+  <nav
+    class="flex items-center gap-10 fixed top-0 left-0 z-[999] w-full py-5 px-5 navbar border-b-5 bg-white min-md:hidden"
+    x-data="hyperlinks">
+    <button class="w-[40px] h-[40px] border-5 navbar-mobile flex gap-[2px] flex-col justify-center px-2"
+      @click="navbarOpen = !navbarOpen">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <nav class="fixed top-0 left-0 w-[90%] h-screen bg-white z-[1000] duration-1000 nav-mb min-md:hidden"
+    :class="{'-translate-x-full':!navbarOpen}" x-data="hyperlinks">
+    <span class="absolute top-5 right-5 text-4xl cursor-pointer" @click="navbarOpen = false">
+      <iconify-icon icon="material-symbols:close-rounded"></iconify-icon>
+    </span>
+    <div class="flex flex-col px-5 w-full gap-10 my-20">
+      <template x-for="nav in navbar" :key="nav.link">
+        <button :data-link="nav.link" class="font-reddit-mono text-6xl">
+          <span x-text="nav.text"></span>
+        </button>
+      </template>
     </div>
-
-    <!-- Skills Section -->
-    <section class="py-20 min-h-screen flex" data-bgcolor="oklch(13% 0.028 261.692)">
-      <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-8 font-bebas animate-btt tracking-wide">Skills</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"
-          x-data="{ skills: ['Wordpress', 'Elementor', 'Reactjs', 'Laravel', 'RDBMS', 'Woocommerce', 'Tailwindcss', 'Nodejs'] }">
-          <template x-for="(skill, index) in skills" :key="skill">
-            <div class="bg-gray-500 p-4 rounded font-poppins hover:bg-white hover:text-black" x-text="skill"
-              data-aos="fade-up" :data-aos-delay="index * 100">
-            </div>
+  </nav>
+  <main id="smooth-wrapper">
+    <div id="smooth-content" x-data="hyperlinks">
+      <section class="min-h-screen flex flex-col justify-center gap-10 items-center font-bebas " id="home">
+        <div class="flex gap-1 flex-col">
+          <h1 class="text-8xl font-bold tracking-wide">
+            Rajiph Iqbal Ghandi
+          </h1>
+          <h2 class="text-4xl font-semibold text-blue-600">
+            Fullstack Developer
+          </h2>
+        </div>
+        <nav class="flex gap-10 flex-wrap max-md:px-10">
+          <template x-for="nav in socialLinks" :key="nav.link">
+            <a :href="nav.link" class="hover:text-blue-400 text-2xl flex gap-5 items-center" target="_blank"
+              rel="noopener noreferrer">
+              <span class="flex items-center">
+                <iconify-icon :icon="nav.icon"></iconify-icon>
+              </span>
+              <span x-text="nav.name" class="items-center"></span>
+            </a>
           </template>
-        </div>
-
-
-      </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section x-data="projects()" id="projects" class="py-10 min-h-screen flex flex-col items-center px-5 w-full"
-      data-bgcolor="oklch(37.2% 0.044 257.287)">
-      <div class="w-full">
-        <div class="swiper mySwiper h-full">
-          <div class="swiper-wrapper h-full">
-            <template x-for="(project, index) in projects" :key="project.title">
-              <div class="swiper-slide flex h-full flex-col bg-gray-800 p-6 rounded-xl border border-gray-500"
-                data-aos="fade-up" :data-aos-delay="index * 300">
-                <div class="flex flex-col gap-5 items-start justify-between flex-1">
-                  <div class="flex flex-col gap-2 min-h-[250px]">
-                    <h3 class="text-xl font-bold mb-2 font-reddit-mono" x-text="project.title"></h3>
-                    <p class="mb-2 font-reddit-mono text-sm" x-text="project.description"></p>
-                  </div>
-                  <div>
-                    <a :href="project.link" target="_blank"
-                      class="px-5 py-2 rounded-full text-white font-reddit-mono underline"
-                      :class="{'invisible':!project.link}">View site</a>
-                  </div>
-                </div>
-              </div>
-            </template>
+        </nav>
+      </section>
+      <section id="about" class="min-h-screen w-full flex flex-col justify-center items-center gap-10">
+        <h2 class="text-6xl font-bebas font-bold text-blue-600">About Me</h2>
+        <div class="about-text-container w-1/2 max-md:w-[90%]">
+          <div
+            class="flex flex-col border rounded-xl px-5 py-10 w-full text-lg text-left font-poppins tracking-tight max-sm:text-sm font-medium about-text">
+            <p>
+              Passionate and detail-oriented Web Developer with 1 year+ hands-on experience.
+            </p>
+            <p>
+              in crafting high-performing,
+              user-focused e-commerce solutions. Skilled in building custom WordPress and WooCommerce websites with
+              Elementor, as well as developing scalable applications using React.js and Laravel.
+            </p>
+            <p>
+              Experienced in front-end
+              animation with GSAP, Alpine.js state management, and full-stack solutions powered by REST APIs and modern
+              dev
+              tools like Vite and Tailwind CSS 4.0.
+            </p>
+            <p>
+              Also proficient in integrating platforms like Telegram and Discord
+              through custom bot development. Eager to contribute to dynamic teams, build efficient systems, and
+              continuously learn in a fast-paced environment.
+            </p>
           </div>
-          <div class="swiper-button-next bg-[rgba(255,255,255,0.5)] p-5 rounded-full"></div>
-          <div class="swiper-button-prev bg-[rgba(255,255,255,0.5)] p-5 rounded-full"></div>
         </div>
-      </div>
-    </section>
-
-
-    <!-- Experience Section -->
-    <section class="py-20 min-h-screen" data-aos="fade-up" data-bgcolor="oklch(13% 0.028 261.692)">
-      <div class="max-w-4xl mx-auto px-4 py-20">
-        <h2 class="text-3xl font-bold mb-8 font-bebas">Experience</h2>
+      </section>
+      <section id="experience" class="min-h-screen w-full flex flex-col px-32 max-md:px-10 gap-10">
+        <h2 class="text-6xl text-blue-600 font-bebas font-bold text-center">
+          Work Experience
+        </h2>
         <ol class="relative border-s border-gray-200 dark:border-gray-700 font-reddit-mono">
           <li class="mb-10 ms-4">
             <div
               class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
             </div>
-            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">November 2023 -
+            <h2 class="text-5xl font-bold text-blue-600">Kita Technology</h2>
+            <h3 class="text-3xl font-semibold text-blue-600">Web Developer</h3>
+            <time class="mb-1 text-lg font-normal leading-none text-gray-400 dark:text-gray-500">November 2023 -
               Current</time>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Web Developer</h3>
-            <ul class="list-disc ml-4">
-              <li>Create Website App</li>
-              <li>Maintain Website</li>
+            <ul class="list-disc ml-4 text-lg mt-5">
+              <li>Develop Website App</li>
               <li>Integrate Payment Gateway</li>
+              <li>Rework Websites</li>
+              <li>Maintain Websites</li>
             </ul>
           </li>
         </ol>
-      </div>
-    </section>
-    <!-- Footer -->
-    <footer class="text-center text-gray-400 py-8 px-5">
-      <p>© 2025 Rajiph Iqbal Ghandi. All rights reserved.</p>
-    </footer>
+      </section>
+      <section id="skills" class="min-h-screen flex flex-col gap-10 px-32 max-md:px-10">
+        <h2 class="text-6xl font-bold mb-8 font-bebas animate-btt tracking-wide text-blue-600 text-center">Skills</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"
+          x-data="{ skills: ['Wordpress', 'Elementor', 'Reactjs', 'Laravel', 'RDBMS', 'Woocommerce', 'Tailwindcss', 'Nodejs'] }">
+          <template x-for="(skill, index) in skills" :key="skill">
+            <div class="border-3 p-4 font-poppins hover:bg-white hover:text-black skill" x-text="skill"
+              data-aos="fade-up" :data-aos-delay="index * 100">
+            </div>
+          </template>
+        </div>
+      </section>
+      <section id="projects" class="min-h-screen w-full flex flex-col px-32 max-md:px-10 gap-10">
+        <h2 class="text-6xl text-blue-600 font-bebas font-bold text-center">
+          Projects
+        </h2>
+        <section x-data="projects()" id="projects" class="py-10 min-h-screen flex flex-col items-center px-5 w-full">
+          <div class="w-full">
+            <div class="swiper mySwiper h-full">
+              <div class="swiper-wrapper h-full">
+                <template x-for="(project, index) in projects" :key="project.title">
+                  <div class="swiper-slide flex h-full flex-col p-6 rounded-xl" data-aos="fade-up"
+                    :data-aos-delay="index * 300">
+                    <div
+                      class="flex flex-col gap-5 items-start justify-between flex-1 project-content relative border px-5 py-10 bg-white">
+                      <div class="flex flex-col gap-2 min-h-[250px]">
+                        <h3 class="text-xl font-bold mb-2 font-reddit-mono" x-text="project.title"></h3>
+                        <p class="mb-2 font-reddit-mono text-sm" x-text="project.description"></p>
+                      </div>
+                      <div>
+                        <a :href="project.link" target="_blank"
+                          class="px-5 py-2 rounded-full text-blue-600 font-reddit-mono underline"
+                          :class="{'invisible':!project.link}">View site</a>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+              <div class="absolute top-0 w-full h-full">
+                <div class="swiper-button-next bg-[rgba(255,255,255,0.5)] p-5 rounded-full"></div>
+                <div class="swiper-button-prev bg-[rgba(255,255,255,0.5)] p-5 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
   </main>
   <script src="./main.js" type="module"></script>
 </body>
