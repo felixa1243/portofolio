@@ -55,6 +55,11 @@ Olaundry is laundry company located in yogyakarta, they need a website that intr
         description: `DKSH Snack Pairs is a promotional website for a snack brand, they need a website that introduce their product so the customer can easily contact them. DKSH, also known as DiethelmKellerSiberHegner,
         is a Swiss holding company specialising in market expansion services, e.g. outsourcing`,
         link: 'https://kitatechnology.com/preview/dev/iqbal/microsite/dksh-june-2025'
+      }, {
+        title: "Vanilla Unstyled UI",
+        description: `A flexible set of modular and unstyled UI components built for Tailwind CSS & Alpine.js.
+Designed for makers who want full control—build your design system from scratch, extend every piece, and scaffold your own UI toolkit with zero opinionated styles.`,
+        link: "https://felixa1243.github.io/vanilla-classic-ui/"
       }
     ]
   }));
