@@ -3,6 +3,7 @@
 @theme {
   --font-bebas: 'Bebas Neue', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
+  --color-primary: #f7f300;
 }
 
 .swiper-button-next,
@@ -11,8 +12,26 @@
 
 }
 
+
 #home h1 {
   overflow: hidden;
+}
+
+.glow-text {
+  animation-name: glow;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0px 0px 3px #fff, 0px 0px 5px #614ad3;
+  }
+
+  to {
+    text-shadow: 0px 0px 20px #fff, 0px 0px 20px #614ad3;
+  }
 }
 
 #projects {
@@ -55,4 +74,18 @@
   content: '';
   pointer-events: none;
   @apply -z-[1] absolute block w-full h-full bg-black rounded-xl left-5 top-7
+}
+
+.sidebar {
+  @apply flex flex-col gap-7 bg-white relative w-full h-full py-7 px-5
+}
+
+.sidebar::before {
+  content: '';
+  pointer-events: none;
+  @apply -z-[1] absolute block w-full h-full bg-black -left-5 top-5
+}
+
+.swiper-slide-shadow {
+  display: none !important;
 }

@@ -5,14 +5,92 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Swiper from "swiper";
 import "swiper/swiper-bundle.css";
-import { Navigation } from "swiper/modules";
+import { Navigation, EffectCards } from "swiper/modules";
 import "@fontsource/bebas-neue";
 import "@fontsource/poppins";
 import Alpine from "alpinejs";
 gsap.registerPlugin(ScrollSmoother, ScrollTrigger, SplitText);
 window.Alpine = Alpine;
+document.addEventListener("DOMContentLoaded", function () {
+  const smoother = ScrollSmoother.create({
+    smooth: 3
+  })
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      smoother.scrollTo(link.getAttribute('href'), true);
+    });
+  })
+  gsap.registerPlugin(SplitText);
+  let counter = { value: 0 };
+  let percentage = document.getElementById("loader-percentage");
+  let tl_load = gsap.timeline();
+
+  tl_load.to(counter, {
+    value: 100,
+    duration: 2.5,
+    ease: "power1.in",
+    onUpdate: () => {
+      let currentPercentage = Math.floor(counter.value);
+      percentage.textContent = currentPercentage + "%";
+      gsap.set(percentage, { top: currentPercentage - 3 + "%" });
+    },
+    onComplete: () => {
+      const fadeOut = {
+        opacity: 0,
+        duration: 0.7
+      }
+      gsap.to('#loader-progress-bar', fadeOut)
+      gsap.to('#loader-percentage', fadeOut)
+      runTransition()
+    }
+  });
+
+  tl_load.to("#loader-progress-bar", {
+    height: "100%",
+    duration: 2.5,
+    ease: "power1.in"
+  }, 0);
+  function runTransition() {
+    let tl_main = gsap.timeline();
+    const title = document.querySelector(".my-title");
+    const titleSplit = new SplitText(title, { type: "chars" });
+    tl_main
+      .to("#transition-wipe", {
+        x: "0%",
+        duration: 0.5,
+        ease: "power2.inOut"
+      })
+      .to("#loader", {
+        opacity: 0,
+        duration: 0.5
+      }, 1)
+      .fromTo(titleSplit.chars, {
+        y: 50,
+        opacity: 0
+      }, {
+        y: 0,
+        opacity: 1,
+        duration: 0.3,
+        stagger: 0.03,
+        ease: "power2.out"
+      })
+      .addLabel("flickerStart", ">")
+      .to(".my-title", { opacity: 0, filter: "brightness(0.2)" })
+      .to(title, { opacity: 1, duration: 0.1, ease: "power2.out" }, "flickerStart")
+      .to(title, { opacity: 0.2, duration: 0.05, ease: "power2.out" })
+      .to(title, { opacity: 1, duration: 0.1, ease: "power2.out" })
+      .to(title, { opacity: 0.4, duration: 0.07, ease: "power2.out" })
+      .to(title, { opacity: 1, duration: 0.12, ease: "power2.out" })
+      .to(title, { filter: "brightness(1.2)", duration: 0.3, ease: "power2.out" });
+  }
+
+});
 document.addEventListener('alpine:init', () => {
-  Alpine.data('hyperlinks', () => ({
+  Alpine.store('navbar', {
+    activeLink: '',
+    navbarMobileActive: false,
+    showCV: false,
     navbar: [
       { text: 'Home', link: '#home' },
       { text: 'About', link: '#about' },
@@ -22,12 +100,68 @@ document.addEventListener('alpine:init', () => {
       { text: 'Projects', link: '#projects' },
     ],
     socialLinks: [
+
       { name: 'github', link: 'https://github.com/felixa1243', icon: 'line-md:github' },
+
       { name: 'linkedin', link: 'https://www.linkedin.com/in/rajiph-iqbal-ghandi-426a56186/', icon: 'line-md:linkedin' },
+
       { name: 'email', link: 'mailto:felixarajiph@gmail.com', icon: 'line-md:email' },
-      { name: 'cv', link: './cv.pdf', icon: 'line-md:download' }
-    ]
-  }));
+    ],
+
+    // 3. The Logic (Runs only ONCE)
+    init() {
+      // We wait for the DOM to be ready
+      setTimeout(() => {
+        this.setupScrollSpy();
+      }, 100);
+    },
+
+    setupScrollSpy() {
+      // Setup the Skills Animation (moved out of the loop for cleaner logic)
+      const skillsGrid = document.querySelector('#skills .grid');
+      if (skillsGrid) {
+        const skills = skillsGrid.querySelectorAll('.skill');
+        gsap.set(skills, { y: 100, autoAlpha: 0 }); // Set initial state
+      }
+
+      this.navbar.forEach((navItem) => {
+        const section = document.querySelector(navItem.link);
+
+        if (!section) return;
+
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
+          // Update the Alpine Store variable instead of manipulating DOM classes manually
+          onToggle: (self) => {
+            if (self.isActive) {
+              this.activeLink = navItem.link;
+            }
+          },
+          // Specific animation for Skills section
+          onEnter: () => {
+            if (navItem.link === '#skills') {
+              const grid = section.querySelector('.grid');
+              const skills = grid?.querySelectorAll('.skill');
+              if (skills) {
+                gsap.to(skills, {
+                  autoAlpha: 1,
+                  y: 0,
+                  duration: 1,
+                  stagger: 0.2,
+                  overwrite: true // prevents conflict
+                });
+              }
+            }
+          }
+        });
+      });
+    },
+
+    toggle() { this.navbarMobileActive = !this.navbarMobileActive; },
+    close() { this.navbarMobileActive = false; }
+  });
   Alpine.data("projects", () => ({
     projects: [
       {
@@ -63,41 +197,10 @@ Designed for makers who want full control—build your design system from scratc
       }
     ]
   }));
-  const smoother = ScrollSmoother.create({
-    content: '#smooth-content',
-    smooth: 5,
-    smoothTouch: 0.1,
-    normalizeScroll: true,
-    ignoreMobileResize: true,
-    effects: true,
-  });
-
-  Alpine.nextTick(() => {
-    const navbar = document.querySelector('.navbar');
-    function navigate(nav) {
-      nav.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const targetSelector = e.currentTarget.dataset.link;
-          if (targetSelector) {
-            smoother.scrollTo(targetSelector, true);
-          }
-        });
-      });
-    }
-    navigate(navbar);
-    const navbarMobile = document.querySelector('.nav-mb');
-    navigate(navbarMobile);
-  });
   const swiper = new Swiper('.mySwiper', {
     loop: true,
     spaceBetween: 20,
     slidesPerView: 3,
-    observer: true,
-    observeParents: true,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
     breakpoints: {
       320: {
         slidesPerView: 1
@@ -105,99 +208,15 @@ Designed for makers who want full control—build your design system from scratc
       768: {
         slidesPerView: 2,
       },
-      1024: {
+      1200: {
         slidesPerView: 3,
 
       }
     },
-    modules: [Navigation]
+    effect: 'cards',
+    modules: [EffectCards]
   })
-});
-const section = document.querySelectorAll('section');
-section.forEach((section, index) => {
-
-
-  ScrollTrigger.create({
-    trigger: section,
-    onEnter: () => {
-      animateSection();
-    },
-    onEnterBack: () => {
-      animateSection();
-    }
-  })
-  function animateSection() {
-    const tl = gsap.timeline();
-    switch (index) {
-      case 0:
-        const title = section.querySelector('h1');
-        animateHeroTitle(title)
-        break;
-      case 1:
-        const title2 = section.querySelector('h2');
-        const text = section.querySelector('.about-text-container')
-        animateHeroTitle(title2, tl)
-        tl.fromTo(text, {
-          x: 100,
-          opacity: 0
-        }, {
-          x: 0,
-          duration: 1.2,
-          opacity: 1,
-        }, 1)
-        break;
-      case 2:
-        const title3 = section.querySelector('h2');
-        animateHeroTitle(title3)
-        break;
-      case 4:
-        const title4 = section.querySelector('h2', tl);
-        const grid = section.querySelector('.grid');
-        const skills = grid.querySelectorAll('.skill');
-        tl.fromTo(skills, {
-          autoAlpha: 0,
-          y: 100
-        }, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2
-        }, 1)
-        animateHeroTitle(title4)
-        break;
-      case 3:
-        const title5 = section.querySelector('h2');
-        animateHeroTitle(title5)
-        break;
-      case 5:
-        const title6 = section.querySelector('h2');
-        animateHeroTitle(title6)
-        break;
-    }
-  }
-  function animateHeroTitle(title, tl) {
-    if (tl) {
-      tl.fromTo(SplitText.create(title, 'chars').chars, {
-        y: 100,
-        opacity: 0
-      }, {
-        y: 0,
-        duration: 1,
-        opacity: 1,
-        stagger: 0.05
-      })
-    } else {
-      gsap.fromTo(SplitText.create(title, 'chars').chars, {
-        y: 100,
-        opacity: 0
-      }, {
-        y: 0,
-        duration: 1.2,
-        opacity: 1,
-        stagger: 0.05
-      })
-    }
-  }
 })
+
 Alpine.start();
 
