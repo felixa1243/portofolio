@@ -167,7 +167,7 @@
       </main>
     </div>
   </main>
-  <div class="fixed top-8 right-8 xl:hidden">
+  <div class="fixed top-8 right-8 xl:hidden z-[100]" x-show="!$store.navbar.navbarMobileActive">
     <button @click="$store.navbar.toggle()">
       <iconify-icon icon="lucide:menu" class="text-4xl cursor-pointer"></iconify-icon>
     </button>
@@ -197,7 +197,7 @@
       </template>
     </div>
   </div>
-  <div id="loader" class="fixed inset-0 bg-[#1a1a1a] text-white z-[100] w-full pointer-events-none min-h-screen">
+  <div id="loader" class="fixed inset-0 bg-[#1a1a1a] text-white z-[999] w-full pointer-events-none min-h-screen">
     <div id="transition-wipe" class="fixed inset-0 bg-primary z-[101] -translate-x-full"></div>
     <div id="loader-percentage" class="absolute top-0 left-[30px] text-4xl font-bold text-primary -translate-y-1/2">
       0%
